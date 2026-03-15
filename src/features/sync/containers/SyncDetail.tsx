@@ -23,6 +23,7 @@ export function SyncDetailPanel({
     sync,
     isSyncing,
     resolveChange,
+    applyPreview,
     applyMerge,
     reset,
   } = syncFlow;
@@ -35,10 +36,10 @@ export function SyncDetailPanel({
       return `${conflicts.length} conflict${conflicts.length > 1 ? "s" : ""} need review`;
     if (state === "preview")
       return `${changes.length} change${changes.length > 1 ? "s" : ""} to apply`;
-    if (state === "resolved") return "Merge applied";
+    if (state === "resolved") return "Applied";
     if (state === "error") return "Sync failed";
     if (state === "syncing") return "Syncing...";
-    return `v${integration.version} · ${integration.lastSyncAt ?? "never synced"}`;
+    return `${integration.version} · ${integration.lastSyncAt ?? "never synced"}`;
   };
 
   return (
@@ -60,7 +61,9 @@ export function SyncDetailPanel({
           variant="outline"
           loading={isSyncing}
           loadingText="Syncing..."
-          disabled={state === "conflict" || state === "resolved"}
+          disabled={
+            state === "conflict" || state === "preview" || state === "resolved"
+          }
           onClick={state === "error" ? reset : sync}
         >
           {state === "error" ? "Retry" : "Sync now"}
@@ -78,13 +81,22 @@ export function SyncDetailPanel({
         {state === "resolved" && (
           <Alert.Root status="success" mb={4} borderRadius="md" size="sm">
             <Alert.Indicator />
-            <Alert.Description>Merge applied successfully.</Alert.Description>
+            <Alert.Description>Applied successfully.</Alert.Description>
           </Alert.Root>
         )}
 
         {state === "preview" && (
           <Box mb={6}>
             <ChangePreview changes={changes} />
+            <Button
+              w="full"
+              mt={3}
+              size="sm"
+              variant="outline"
+              onClick={applyPreview}
+            >
+              Apply {changes.length} change{changes.length > 1 ? "s" : ""}
+            </Button>
           </Box>
         )}
 

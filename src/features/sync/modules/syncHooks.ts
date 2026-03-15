@@ -17,6 +17,7 @@ interface SyncFlowResult {
   sync: () => void;
   isSyncing: boolean;
   resolveChange: (changeId: string, choice: "local" | "remote") => void;
+  applyPreview: () => void;
   applyMerge: () => void;
   reset: () => void;
 }
@@ -29,6 +30,7 @@ export function useSyncFlow(integrationId: string): SyncFlowResult {
   const [syncData, setSyncData] = useState<SyncResponse | null>(null);
 
   const { mutate, isPending } = useMutation({
+    mutationKey: ["sync"],
     mutationFn: () => triggerSync(integrationId),
     onMutate: () => {
       setState("syncing");
@@ -68,6 +70,10 @@ export function useSyncFlow(integrationId: string): SyncFlowResult {
     [],
   );
 
+  const applyPreview = useCallback(() => {
+    setState("resolved");
+  }, []);
+
   const applyMerge = useCallback(() => {
     setState("resolved");
   }, []);
@@ -89,6 +95,7 @@ export function useSyncFlow(integrationId: string): SyncFlowResult {
     sync: () => mutate(),
     isSyncing: isPending,
     resolveChange,
+    applyPreview,
     applyMerge,
     reset,
   };
