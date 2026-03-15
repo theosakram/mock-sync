@@ -1,36 +1,76 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Integration Sync Panel
 
-## Getting Started
+A frontend-only dashboard for managing bidirectional data sync between a B2B SaaS platform and external services (Salesforce, HubSpot, Stripe, Slack).
 
-First, run the development server:
+## Stack
+
+- Next.js (App Router)
+- TypeScript
+- Chakra UI v3
+- React Query
+
+## Install & run
 
 ```bash
-npm run dev
-# or
+yarn install
 yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## What it does
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+Pick an integration on the left, hit **Sync Now**. The app fetches incoming changes from the API, then:
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+- If there are conflicting fields — shows a side-by-side picker. You choose local or incoming per field, then apply the merge.
+- If there are no conflicts — shows a preview of what will be applied.
 
-## Learn More
+Past syncs are listed below with expandable field-level diffs.
 
-To learn more about Next.js, take a look at the following resources:
+## Structure
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+```
+src/
+├── app/
+│   ├── layout.tsx
+│   └── page.tsx
+├── components/
+│   ├── atom/                    # dumb, reusable general components (StatusBadge, IntegrationCard, etc.)
+│   └── ui/                      # Chakra UI generated
+├── features/
+│   └── sync/
+│       ├── containers/          # components with logic related to sync feature
+│       │   ├── ConflictResolver.tsx
+│       │   ├── SyncDetail.tsx
+│       │   └── SyncHistory.tsx
+│       └── modules/             # business logic & API
+│           ├── syncTypes.ts     # types related to sync feature
+│           ├── syncService.ts   # fetch call
+│           └── syncHooks.ts     # useSyncFlow + React Query
+├── providers/
+│   └── ReactQueryProvider.tsx
+└── utils/
+    └── constants/
+        ├── urls.ts              # API URLs.
+        └── mock-sync-data.ts    # mock integrations + history
+```
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+## How it's structured
 
-## Deploy on Vercel
+All sync logic lives in `features/sync/modules`. Containers receive state and callbacks as props — no business logic inside them.
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+The sync flow is a state machine in `syncHooks.ts`:
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+```
+idle → syncing → conflict  → resolved
+                ↘ preview
+       error
+```
+
+## What's real vs mocked
+
+| Thing | Real API | Mocked |
+|---|---|---|
+| Conflict / change data | ✅ | |
+| Integration list | | ✅ |
+| Sync history | | ✅ |
+
+The only real API call is `GET /api/v1/data/sync?application_id=<id>` triggered by the Sync Now button.
