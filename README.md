@@ -46,7 +46,7 @@ src/
 │           ├── syncService.ts   # fetch call
 │           └── syncHooks.ts     # useSyncFlow + React Query
 ├── providers/
-│   └── ReactQueryProvider.tsx
+│   └── QueryProvider.tsx        # react-query provider
 └── utils/
     └── constants/
         ├── urls.ts              # API URLs.

@@ -36,7 +36,7 @@ export function IntegrationCard({
           {integration.name}
         </Text>
         <Text fontSize="11px" color="fg.subtle" mt="1px">
-          {integration.lastSyncAt ?? "Never synced"}
+          {integration.version} · {integration.lastSyncAt ?? "never synced"}
         </Text>
       </Box>
       <StatusBadge status={integration.status} />

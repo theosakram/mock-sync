@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { Box, Flex, Text } from "@chakra-ui/react";
-import { HistoryItem } from "../modules/syncTypes";
 import { ChangePreview } from "@/components/atom/ChangePreview";
+import { HistoryItem } from "../modules/syncTypes";
 
 const dotColor: Record<HistoryItem["type"], string> = {
   success: "green.500",
@@ -37,6 +37,14 @@ function HistoryRow({ item }: { item: HistoryItem }) {
         />
         <Text fontSize="12px" color="fg.muted" flex={1}>
           {item.message}
+        </Text>
+        <Text
+          fontSize="11px"
+          color="fg.subtle"
+          fontFamily="mono"
+          flexShrink={0}
+        >
+          {item.version}
         </Text>
         <Text fontSize="11px" color="fg.subtle" flexShrink={0}>
           {item.timestamp}
