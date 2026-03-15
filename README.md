@@ -49,7 +49,7 @@ src/
 │   └── QueryProvider.tsx        # react-query provider
 └── utils/
     └── constants/
-        ├── urls.ts              # API URLs.
+        ├── urls.ts              # API URLs
         └── mock-sync-data.ts    # mock integrations + history
 ```
 
@@ -74,3 +74,19 @@ idle → syncing → conflict  → resolved
 | Sync history | | ✅ |
 
 The only real API call is `GET /api/v1/data/sync?application_id=<id>` triggered by the Sync Now button.
+
+## Assumptions
+
+- All changes returned by the API are treated as conflicts requiring review (`UPDATE` = user picks, `CREATE`/`DELETE` = auto-applied but shown transparently before merge)
+- `application_id` maps 1:1 with the integration ID — real values would come from Portier's config
+- The Door entity has no external sync source (the API doesn't return door fields) so it's excluded
+- Conflict resolutions default to the incoming (remote) value — assuming the external service is generally the source of truth
+- History is mocked since there's no history endpoint — in production this would be a separate API call
+
+## Design decisions
+
+- **State machine over ad-hoc booleans** — sync flow has clear states (`idle`, `syncing`, `conflict`, `preview`, `resolved`, `error`). Easier to reason about and extend.
+- **`useSyncFlow` lifted to page level** — so `isSyncing` is accessible to the integration list, which locks selection during a sync. Prevents stale state bleeding between integrations.
+- **Resolutions keyed by `change.id` not `field_name`** — the API can return multiple changes for the same field (different records). `field_name` as key would cause silent overwrites.
+- **`SyncApiError` as a typed class** — lets you `instanceof` check in catch blocks and map status codes to specific user-facing messages cleanly.
+- **No filter/search on integrations** — out of scope per the spec, and overengineering for 4 items.
