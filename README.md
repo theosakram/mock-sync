@@ -31,7 +31,7 @@ yarn test:e2e
 yarn storybook
 ```
 
-## 🧪 Testing Strategy (136 Tests)
+## 🧪 Testing Strategy (97+ Tests)
 
 This project demonstrates **enterprise-grade testing practices**:
 
@@ -72,8 +72,8 @@ yarn test:e2e:headed   # Visible browser
 yarn test:e2e:ui       # Interactive UI mode
 ```
 
-### Component Tests with Storybook (39 tests)
-Visual regression testing via Storybook stories:
+### Component Visual Documentation (30+ stories)
+Interactive component documentation via Storybook:
 
 | Component | Stories |
 |-----------|---------|
@@ -83,11 +83,11 @@ Visual regression testing via Storybook stories:
 | `ConflictResolver` | 6 states (unresolved, partial, resolved, single, many, mixed) |
 | `SyncHistory` | 6 states (default, success, conflicts, errors, empty, single) |
 
-**Run Storybook tests:**
+**Run Storybook:**
 ```bash
 yarn storybook         # Dev server on :6006
 yarn build-storybook   # Static build
-yarn test:storybook    # Stories as Vitest tests
+yarn test:storybook    # Stories as Vitest tests (requires Playwright browsers)
 ```
 
 ## 🐳 Docker Containerization
@@ -253,8 +253,8 @@ yarn docker:prod         # Run production container
 |----------|-------|-------|
 | Unit Tests | 80 | Vitest + React Testing Library |
 | E2E Tests | 17 | Playwright |
-| Visual Tests | 39 | Storybook + Vitest |
-| **Total** | **136** | |
+| Visual Stories | 30+ | Storybook |
+| **Total** | **97+** | |
 
 ## 🎓 Key Implementation Details
 

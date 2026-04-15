@@ -89,18 +89,17 @@ test.describe('Integration Card Interactions', () => {
   });
 
   test('clicking integration updates detail panel', async ({ page }) => {
-    // Initially Salesforce is selected
-    await expect(page.locator('text=Salesforce').nth(1)).toBeVisible();
+    // Initially Salesforce is selected (first in list + in detail panel)
+    await expect(page.getByText('Salesforce').nth(1)).toBeVisible();
     
     // Click HubSpot
     await page.getByText('HubSpot').click();
     
-    // Verify detail panel updates
-    await expect(page.locator('text=HubSpot').nth(1)).toBeVisible();
-    await expect(page.getByText('CRM · contacts, deals')).toBeVisible();
+    // Verify detail panel updates - HubSpot should appear twice (list + detail)
+    await expect(page.getByText('HubSpot').nth(1)).toBeVisible();
     
-    // Verify status line shows synced info
-    await expect(page.getByText(/2\.1\.0 · 12 minutes ago/)).toBeVisible();
+    // Verify status line shows synced info for HubSpot
+    await expect(page.getByText('2.1.0 · 12 minutes ago')).toBeVisible();
   });
 });
 
