@@ -31,7 +31,7 @@ yarn test:e2e
 yarn storybook
 ```
 
-## 🧪 Testing Strategy (97+ Tests)
+## 🧪 Testing Strategy (95+ Tests)
 
 This project demonstrates **enterprise-grade testing practices**:
 
@@ -52,7 +52,7 @@ yarn test:watch        # Watch mode
 yarn test:coverage     # With coverage report
 ```
 
-### E2E Tests with Playwright (17 tests)
+### E2E Tests with Playwright (15 tests)
 End-to-end tests covering critical user flows:
 
 | Test Suite | Scenarios |
@@ -252,9 +252,9 @@ yarn docker:prod         # Run production container
 | Category | Count | Tools |
 |----------|-------|-------|
 | Unit Tests | 80 | Vitest + React Testing Library |
-| E2E Tests | 17 | Playwright |
+| E2E Tests | 15 | Playwright |
 | Visual Stories | 30+ | Storybook |
-| **Total** | **97+** | |
+| **Total** | **95+** | |
 
 ## 🎓 Key Implementation Details
 
@@ -269,7 +269,7 @@ yarn docker:prod         # Run production container
 - [x] TypeScript strict mode enabled
 - [x] ESLint configured
 - [x] Unit tests (80+ tests)
-- [x] E2E tests (17+ tests)
+- [x] E2E tests (15+ tests)
 - [x] Visual regression testing (Storybook)
 - [x] Docker containerization
 - [x] Multi-stage Docker builds
