@@ -1,4 +1,4 @@
-import type { Meta, StoryObj } from '@storybook/react';
+import type { Meta, StoryObj } from '@storybook/nextjs-vite';
 import { ConflictResolver } from './ConflictResolver';
 import { Change } from '@/features/sync/modules/syncTypes';
 

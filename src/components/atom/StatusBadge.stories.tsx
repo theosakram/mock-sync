@@ -1,4 +1,4 @@
-import type { Meta, StoryObj } from '@storybook/react';
+import type { Meta, StoryObj } from '@storybook/nextjs-vite';
 import { StatusBadge } from './StatusBadge';
 import { IntegrationStatus } from '@/features/sync/modules/syncTypes';
 

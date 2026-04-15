@@ -65,11 +65,7 @@ test.describe('Sync Flow', () => {
     // Click on Stripe which has syncing status
     await page.getByText('Stripe').click();
     
-    // The integrations list should be dimmed (opacity: 0.5)
-    const integrationsList = page.locator('[style*="opacity: 0.5"]').first();
-    
-    // Try clicking on another integration
-    // In real app this might be blocked, let's just verify Stripe is selected
+    // Verify Stripe details are shown
     await expect(page.locator('text=Stripe').nth(1)).toBeVisible();
   });
 });

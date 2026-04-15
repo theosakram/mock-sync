@@ -1,4 +1,4 @@
-import type { Meta, StoryObj } from '@storybook/react';
+import type { Meta, StoryObj } from '@storybook/nextjs-vite';
 import { SyncHistory } from './SyncHistory';
 import { HistoryItem } from '@/features/sync/modules/syncTypes';
 

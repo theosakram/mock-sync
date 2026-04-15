@@ -25,7 +25,7 @@ const preview: Preview = {
     },
   },
   decorators: [
-    (Story) => React.createElement(Provider, { children: React.createElement(Story) }),
+    (Story) => React.createElement(Provider, null, React.createElement(Story)),
   ],
 };
 
